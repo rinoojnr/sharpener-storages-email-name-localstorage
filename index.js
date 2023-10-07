@@ -9,7 +9,7 @@ form.addEventListener('submit',addStorage);
 function addStorage(e){
     e.preventDefault();
     let myObj ={
-        mname:nameList.value,
+        name:nameList.value,
         email:emailList.value
     }
     // let myObj1 ={
@@ -23,5 +23,6 @@ function addStorage(e){
     localStorage.setItem("myObj",myobj_serialized)
     localStorage.setItem('name',nameList.value);
     localStorage.setItem('mail',emailList.value)
+    localStorage.setItem(emailList.value,myobj_serialized)
 }
 

@@ -48,11 +48,13 @@ function addStorage(e){
 
 }
 function removeLi(e){
-    console.log("gggggg")
     if(e.target.classList.contains('delete')){
         if(confirm("Are you sure")){
             var rem = e.target.parentElement;
             itemList.removeChild(rem);
+            console.log(rem)
+            em_rem = rem.childNodes[2].textContent;
+            localStorage.removeItem(em_rem)
         }
     }
 }

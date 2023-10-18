@@ -98,9 +98,25 @@ function addStorage(e){
 axios.post('https://crudcrud.com/api/7604fb59ea1648b88af96a1485bdc8e0/Appointment',myObj).then((res)=>{
 console.log(res)
 showOnscreen(res.data)
-}).catch((error)=>console.log("found error",error))        
+}).catch((error)=>{
+    console.log("found error",error)
+})
+     
 
 }
+
+window.addEventListener('DOMContentLoaded',()=>{
+    axios.get('https://crudcrud.com/api/7604fb59ea1648b88af96a1485bdc8e0/Appointment').then((resolve)=>{
+        console.log(resolve.data)
+        for(let i=0;i<resolve.data.length;i++){
+            showOnscreen(resolve.data[i])
+        }
+        
+    })
+    
+    .catch((error)=>console.log(error))
+    
+})
 
 
 

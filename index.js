@@ -6,6 +6,7 @@ var itemList =document.getElementById("items");
 var phoneList =document.getElementById("phone")
 
 let userList;
+let baseURL = 'https://crudcrud.com/api/4e1866f6e08944c2b43ee4f472d289f2'
 
 
 
@@ -13,7 +14,7 @@ let userList;
 form.addEventListener('submit',addStorage);
 
 // itemList.addEventListener('click',removeLi);
-itemList.addEventListener('click',editLi);
+// itemList.addEventListener('click',editLi);
 
 
 
@@ -97,7 +98,7 @@ function addStorage(e){
         phone:phoneList.value
     }
     
-axios.post('https://crudcrud.com/api/f687f337dc2946769a47dbbdfea8b2f8/Appointments',myObj).then((res)=>{
+axios.post(`${baseURL}/Appointments`,myObj).then((res)=>{
 console.log(res)
 listUsers();
 }).catch((error)=>{
@@ -115,39 +116,40 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 function listUsers() {
     console.log('================')
-    axios.get('https://crudcrud.com/api/f687f337dc2946769a47dbbdfea8b2f8/Appointments').then((resolve)=>{
+    axios.get(`${baseURL}/Appointments`).then((resolve)=>{
         console.log(resolve.data)
         var nHTML = '';
         userList= resolve.data
         for(let i=0;i<resolve.data.length;i++){
             // showOnscreen(resolve.data[i])
             nHTML += `<div class="notes" id=`+String(resolve.data._id)+`" ">
-                <div class="items" id="item-color" >                                      
-                <div class="s3-btn" name="Open"  id=`+i+` onclick="updateNotePopupOpen(id, name='update_note');">`+
-                    `<li id="update-title" class="list-group-item"  style="list-style-type:none">` + resolve.data[i].name + "-"+resolve.data[i].email
-                    +
-                    
-                    `<span class="material-icons-outlined" id=`+i+` onclick="deleteUser(id)">
-                        <button type='button' class="btn-sm float-right delete">DELETE
-                    </span>`
-
-                    +`</li>` +
-                    // `<li id="update-note" class="update-note" style="list-style-type:none">` + resolve.data[i].email +
-                    // `</li>` +
-                // `</div>`+
-                // `<div class="sub-buttons" id="display-buttons">`+
-                //     `<span class="material-icons-outlined" id=`+i+` onclick="deleteUser(id)">
-                //         <button type='button' class="btn-sm float-right delete">DELETE
-                //     </span>`+
-                // `</div>`+
-                // `</div>`+  
-            `</div>` 
+                        <div class="items" id="item-color" >                                      
+                            <div class="s3-btn" name="Open"  id=`+i+`">`+
+                                `<li id="update-title" class="list-group-item"  style="list-style-type:none">` + resolve.data[i].name + "-"+resolve.data[i].email+                            
+                                    `<span class="material-icons-outlined">
+                                        <button type='button' class="btn-sm float-right delete" onclick="deleteUser(id)" id=`+i+`>DELETE `+`
+                                        <button type='button' class="btn-sm-right float-right " onclick="editUser(id)" id =`+i+`>EDIT
+                                    `
+                                    +`</span>`
+                                +`</li>`+
+                            `</div>`+
+                        `</div>`+
+                    `</div>`
         }
         document.getElementById("items").innerHTML = nHTML;
     })
     
     .catch((error)=>console.log(error))
     
+}
+
+function editUser(id) {
+    nameList.value = userList[id].name;
+    phoneList.value =userList[id].phone;
+    emailList.value =userList[id].email;
+
+    deleteUser(id)
+    console.log(id)
 }
 
 
@@ -163,7 +165,7 @@ function listUsers() {
 // }
 
 function deleteUser(id) {
-    axios.delete(`https://crudcrud.com/api/f687f337dc2946769a47dbbdfea8b2f8/Appointments/${userList[id]._id}`).then((res)=>    listUsers()
+    axios.delete(`${baseURL}/Appointments/${userList[id]._id}`).then((res)=>    listUsers()
     )
 }
 
@@ -198,19 +200,19 @@ function deleteUser(id) {
 //         }
 //     }
 // }
-function editLi(e){
-    if(e.target.classList.contains('edit')){
-        if(confirm("Are you sure to edit")){
-            var rem = e.target.parentElement;
-            itemList.removeChild(rem);
-            nameList.value = rem.childNodes[0].textContent;
-            emailList.value = rem.childNodes[2].textContent;
-            em_rem = rem.childNodes[2].textContent;
-            localStorage.removeItem(em_rem)
+// function editLi(e){
+//     if(e.target.classList.contains('edit')){
+//         if(confirm("Are you sure to edit")){
+//             var rem = e.target.parentElement;
+//             itemList.removeChild(rem);
+//             nameList.value = rem.childNodes[0].textContent;
+//             emailList.value = rem.childNodes[2].textContent;
+//             em_rem = rem.childNodes[2].textContent;
+//             localStorage.removeItem(em_rem)
 
-        }
-    }
-}
+//         }
+//     }
+// }
     
    
  
